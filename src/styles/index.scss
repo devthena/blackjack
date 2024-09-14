@@ -1,0 +1,16 @@
+:root {
+  --black: #1d1d21;
+  --blue-dark: #01314a;
+  --blue-light: rgba(147, 199, 255, 0.5);
+  --white: #f8f8ff;
+}
+
+body {
+  background-color: var(--white);
+  color: var(--black);
+  margin: 0;
+  font-family: 'Figtree', sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
