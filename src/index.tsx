@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Analytics } from '@vercel/analytics/react';
 
 import { App } from './components/App';
+import { GameProvider } from './lib/context';
 
 import reportWebVitals from './reportWebVitals';
 import './styles/index.scss';
@@ -13,7 +14,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App />
+    <GameProvider>
+      <App />
+    </GameProvider>
     <Analytics />
   </React.StrictMode>
 );
