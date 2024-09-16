@@ -44,7 +44,7 @@ export interface GameState {
 
 export type GameAction =
   | { type: 'GAME_START'; payload: Card[] }
-  | { type: 'HIT'; payload: Card[] }
+  | { type: 'HIT' }
   | { type: 'STAND' }
   | { type: 'GAME_END'; payload: GameStatus }
   | { type: 'DEALER_TURN' }

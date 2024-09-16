@@ -4,5 +4,5 @@ export const initialState: GameState = {
   deck: [],
   playerHand: [],
   dealerHand: [],
-  gameStatus: 'play',
+  gameStatus: 'standby',
 };

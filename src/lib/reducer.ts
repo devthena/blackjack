@@ -1,5 +1,5 @@
 import { initialState } from '../constants';
-import { GameAction, GameState } from './types';
+import { Card, GameAction, GameState } from './types';
 import { dealerPlay, drawCard } from './utils';
 
 export const gameReducer = (
@@ -8,35 +8,44 @@ export const gameReducer = (
 ): GameState => {
   switch (action.type) {
     case 'GAME_START':
+      const deck: Card[] = [...action.payload];
+
+      const playerHand = [drawCard(deck), drawCard(deck)];
+      const dealerHand = [drawCard(deck)];
+
       return {
         ...state,
-        deck: action.payload,
-        playerHand: [drawCard(action.payload), drawCard(action.payload)],
-        dealerHand: [drawCard(action.payload)],
+        deck: deck,
+        playerHand: playerHand,
+        dealerHand: dealerHand,
         gameStatus: 'play',
       };
 
     case 'HIT':
       if (state.deck.length === 0) return state;
 
-      const newCard = drawCard(state.deck);
-      const newPlayerHand = [...state.playerHand, newCard];
+      const updatedDeck = [...state.deck];
+      const updatedPlayerHand = [...state.playerHand, drawCard(updatedDeck)];
 
       return {
         ...state,
-        deck: state.deck,
-        playerHand: newPlayerHand,
+        deck: updatedDeck,
+        playerHand: updatedPlayerHand,
       };
 
     case 'STAND':
-      const newDealerHand = dealerPlay(state.deck, state.dealerHand);
+      const currentDeck = [...state.deck];
+      const newDealerHand = dealerPlay(currentDeck, state.dealerHand);
 
       return {
         ...state,
+        deck: currentDeck,
         dealerHand: newDealerHand,
       };
 
     case 'GAME_END':
+      if (state.gameStatus === action.payload) return state;
+
       return {
         ...state,
         gameStatus: action.payload,

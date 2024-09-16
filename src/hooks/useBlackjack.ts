@@ -1,8 +1,8 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { GameContext } from '../lib/context';
 import { Card } from '../lib/types';
-import { drawCard, getHandValue, shuffleDeck } from '../lib/utils';
+import { getHandValue, shuffleDeck } from '../lib/utils';
 
 export const useBlackjack = () => {
   const context = useContext(GameContext);
@@ -13,61 +13,51 @@ export const useBlackjack = () => {
 
   const { state, dispatch } = context;
 
-  const startGame = () => {
+  const resetGame = useCallback(() => {
+    dispatch({ type: 'GAME_RESET' });
+  }, [dispatch]);
+
+  const startGame = useCallback(() => {
     const deck: Card[] = shuffleDeck();
     dispatch({ type: 'GAME_START', payload: deck });
-  };
+  }, [dispatch]);
 
-  const isGameOver = () => {
+  const isGameOver = useCallback(() => {
     const playerHandValue = getHandValue(state.playerHand);
     const dealerHandValue = getHandValue(state.dealerHand);
 
     if (playerHandValue > 21) {
+      console.log('bust');
       dispatch({ type: 'GAME_END', payload: 'bust' });
-      return true;
     }
 
     if (dealerHandValue > 21) {
       dispatch({ type: 'GAME_END', payload: 'dealer_bust' });
-      return true;
-    }
-
-    if (playerHandValue === 21) {
+    } else if (playerHandValue === 21) {
       dispatch({ type: 'GAME_END', payload: 'blackjack' });
-      return true;
-    }
-
-    if (dealerHandValue >= 17 && dealerHandValue > playerHandValue) {
+    } else if (dealerHandValue >= 17 && dealerHandValue > playerHandValue) {
       dispatch({ type: 'GAME_END', payload: 'lose' });
-      return true;
-    }
-
-    if (dealerHandValue >= 17 && playerHandValue > dealerHandValue) {
+    } else if (dealerHandValue >= 17 && playerHandValue > dealerHandValue) {
       dispatch({ type: 'GAME_END', payload: 'win' });
-      return true;
-    }
-
-    if (dealerHandValue >= 17 && dealerHandValue === playerHandValue) {
+    } else if (dealerHandValue >= 17 && dealerHandValue === playerHandValue) {
       dispatch({ type: 'GAME_END', payload: 'push' });
-      return true;
     }
+  }, [dispatch, state.dealerHand, state.playerHand]);
 
-    return false;
-  };
+  const playerHit = useCallback(() => {
+    dispatch({ type: 'HIT' });
+  }, [dispatch]);
 
-  const playerHit = async () => {
-    const newCard = drawCard(state.deck);
-    const newPlayerHand = [...state.playerHand, newCard];
-
-    // Dispatch the PLAYER_HIT action
-    await dispatch({ type: 'HIT', payload: newPlayerHand });
-
-    isGameOver();
-  };
+  const playerStand = useCallback(() => {
+    dispatch({ type: 'STAND' });
+  }, [dispatch]);
 
   return {
     ...state,
+    isGameOver,
     playerHit,
+    playerStand,
+    resetGame,
     startGame,
   };
 };
