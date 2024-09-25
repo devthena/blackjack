@@ -10,6 +10,8 @@ import styles from '../styles/blackjack.module.scss';
 
 export const Blackjack: React.FC = () => {
   const {
+    balance,
+    bet,
     deck,
     dealerHand,
     gameStatus,
@@ -37,7 +39,12 @@ export const Blackjack: React.FC = () => {
           </div>
           <div className={styles.cards}>
             {dealerHand.map((card, i) => (
-              <CardBox key={i} suit={card.suit} rank={card.rank} />
+              <CardBox
+                key={i}
+                small={dealerHand.length > 5}
+                suit={card.suit}
+                rank={card.rank}
+              />
             ))}
           </div>
         </div>
@@ -51,7 +58,7 @@ export const Blackjack: React.FC = () => {
         {gameOver && (
           <div className={styles.result}>
             <p>RESULT: {getResultHeadline(gameStatus)}</p>
-            <button onClick={startGame}>PLAY AGAIN</button>
+            <button onClick={() => startGame(bet)}>PLAY AGAIN</button>
           </div>
         )}
         <div className={styles.player}>
@@ -61,14 +68,19 @@ export const Blackjack: React.FC = () => {
           </div>
           <div className={styles.cards}>
             {playerHand.map((card, i) => (
-              <CardBox key={i} suit={card.suit} rank={card.rank} />
+              <CardBox
+                key={i}
+                small={playerHand.length > 5}
+                suit={card.suit}
+                rank={card.rank}
+              />
             ))}
           </div>
         </div>
       </div>
       <div className={styles.balance}>
-        <p>Bet: 100</p>
-        <p>Balance: 900</p>
+        <p>Bet: {bet}</p>
+        <p>Balance: {balance}</p>
       </div>
     </div>
   );

@@ -21,6 +21,12 @@
   }
 }
 
+.small {
+  svg {
+    width: 56px;
+  }
+}
+
 .clubs,
 .spades {
   color: var(--black);

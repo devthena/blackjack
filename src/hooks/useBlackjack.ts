@@ -17,10 +17,13 @@ export const useBlackjack = () => {
     dispatch({ type: 'GAME_RESET' });
   }, [dispatch]);
 
-  const startGame = useCallback(() => {
-    const deck: Card[] = shuffleDeck();
-    dispatch({ type: 'GAME_START', payload: deck });
-  }, [dispatch]);
+  const startGame = useCallback(
+    (bet: number) => {
+      const deck: Card[] = shuffleDeck();
+      dispatch({ type: 'GAME_START', payload: { bet, deck } });
+    },
+    [dispatch]
+  );
 
   const isGameOver = useCallback(() => {
     const playerHandValue = getHandValue(state.playerHand);
