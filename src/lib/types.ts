@@ -18,6 +18,7 @@ export type Rank =
   | 'A';
 
 export interface Card {
+  small?: boolean;
   suit: Suit;
   rank: Rank;
 }
@@ -28,7 +29,6 @@ export type GameStatus =
   | 'blackjack'
   | 'bust'
   | 'dealer_bust'
-  | 'dealer_turn'
   | 'lose'
   | 'play'
   | 'push'
@@ -36,6 +36,8 @@ export type GameStatus =
   | 'win';
 
 export interface GameState {
+  balance: number;
+  bet: number;
   deck: Deck;
   playerHand: Card[];
   dealerHand: Card[];
@@ -43,11 +45,10 @@ export interface GameState {
 }
 
 export type GameAction =
-  | { type: 'GAME_START'; payload: Card[] }
+  | { type: 'GAME_START'; payload: { bet: number; deck: Card[] } }
   | { type: 'HIT' }
   | { type: 'STAND' }
   | { type: 'GAME_END'; payload: GameStatus }
-  | { type: 'DEALER_TURN' }
   | { type: 'GAME_RESET' };
 
 export interface GameContextType {

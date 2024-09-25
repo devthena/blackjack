@@ -1,3 +1,4 @@
+import { stat } from 'fs';
 import { initialState } from '../constants';
 import { Card, GameAction, GameState } from './types';
 import { dealerPlay, drawCard } from './utils';
@@ -8,13 +9,22 @@ export const gameReducer = (
 ): GameState => {
   switch (action.type) {
     case 'GAME_START':
-      const deck: Card[] = [...action.payload];
+      if (action.payload.bet > state.balance) {
+        return {
+          ...state,
+          gameStatus: 'standby',
+        };
+      }
+
+      const deck: Card[] = [...action.payload.deck];
 
       const playerHand = [drawCard(deck), drawCard(deck)];
       const dealerHand = [drawCard(deck)];
 
       return {
         ...state,
+        balance: state.balance - action.payload.bet,
+        bet: action.payload.bet,
         deck: deck,
         playerHand: playerHand,
         dealerHand: dealerHand,
@@ -46,8 +56,19 @@ export const gameReducer = (
     case 'GAME_END':
       if (state.gameStatus === action.payload) return state;
 
+      let addend = 0;
+
+      if (action.payload === 'win' || action.payload === 'dealer_bust') {
+        addend = state.bet * 2;
+      } else if (action.payload === 'blackjack') {
+        addend = state.bet + state.bet * 1.5;
+      } else if (action.payload === 'push') {
+        addend = state.bet;
+      }
+
       return {
         ...state,
+        balance: state.balance + addend,
         gameStatus: action.payload,
       };
 
