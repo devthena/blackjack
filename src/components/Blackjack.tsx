@@ -65,7 +65,7 @@ export const Blackjack: React.FC = () => {
         </div>
         {!gameOver && (
           <div className={styles.actions}>
-            <button disabled={!bet || bet * 2 > balance} onClick={handleDouble}>
+            <button disabled={!bet || bet > balance} onClick={handleDouble}>
               DOUBLE
             </button>
             <button onClick={playerHit}>HIT</button>
