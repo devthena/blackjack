@@ -37,7 +37,7 @@ export type GameStatus =
 
 export interface GameState {
   balance: number;
-  bet: number;
+  bet: number | null;
   deck: Deck;
   playerHand: Card[];
   dealerHand: Card[];
@@ -45,6 +45,7 @@ export interface GameState {
 }
 
 export type GameAction =
+  | { type: 'BET_UPDATE'; payload: number }
   | { type: 'GAME_START'; payload: { bet: number; deck: Card[] } }
   | { type: 'HIT' }
   | { type: 'STAND' }
@@ -54,4 +55,9 @@ export type GameAction =
 export interface GameContextType {
   state: GameState;
   dispatch: React.Dispatch<GameAction>;
+}
+
+export interface BalanceProps {
+  betDisabled?: boolean;
+  handleBetChange: Function;
 }

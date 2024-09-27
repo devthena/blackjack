@@ -1,2 +1,25 @@
 .landing {
+  margin: 24px auto 0;
+  max-width: 700px;
+}
+
+button.play {
+  background-color: var(--green);
+  border: 2px solid var(--green-dark);
+  border-radius: 30px;
+  color: var(--white);
+  font-size: 24px;
+  font-weight: 500;
+  height: 62px;
+  margin-bottom: 30px;
+  width: 235px;
+
+  &:disabled {
+    background-color: var(--grey);
+    cursor: default;
+  }
+
+  &:hover:enabled {
+    background-color: var(--green-hover);
+  }
 }

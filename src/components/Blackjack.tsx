@@ -7,6 +7,7 @@ import { getHandValue, getResultHeadline } from '../lib/utils';
 import { CardBox } from './Card';
 
 import styles from '../styles/blackjack.module.scss';
+import { Balance } from './Balance';
 
 export const Blackjack: React.FC = () => {
   const {
@@ -20,6 +21,7 @@ export const Blackjack: React.FC = () => {
     playerHit,
     playerStand,
     startGame,
+    updateBet,
   } = useBlackjack();
 
   const gameOver = GAME_OVER_STATUS.includes(gameStatus);
@@ -58,7 +60,13 @@ export const Blackjack: React.FC = () => {
         {gameOver && (
           <div className={styles.result}>
             <p>RESULT: {getResultHeadline(gameStatus)}</p>
-            <button onClick={() => startGame(bet)}>PLAY AGAIN</button>
+            <button
+              disabled={!bet || bet > balance}
+              onClick={() => {
+                if (bet) startGame(bet);
+              }}>
+              PLAY AGAIN
+            </button>
           </div>
         )}
         <div className={styles.player}>
@@ -78,10 +86,7 @@ export const Blackjack: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className={styles.balance}>
-        <p>Bet: {bet}</p>
-        <p>Balance: {balance}</p>
-      </div>
+      <Balance betDisabled={!gameOver} handleBetChange={updateBet} />
     </div>
   );
 };
