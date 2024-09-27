@@ -3,6 +3,9 @@
   --blue-dark: #01314a;
   --blue-light: rgba(147, 199, 255, 0.5);
   --green: #35654d;
+  --green-dark: #052e1a;
+  --green-hover: rgba(53, 101, 77, 0.9);
+  --grey: #787c7e;
   --red: #cc0007;
   --white: #f8f8ff;
   --white-light: #fcfcff;
@@ -16,4 +19,15 @@ body {
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Figtree', sans-serif;
+  font-optical-sizing: auto;
+}
+
+input {
+  font-family: 'Figtree', sans-serif;
+  font-optical-sizing: auto;
 }

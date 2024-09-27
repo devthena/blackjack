@@ -13,6 +13,13 @@ export const useBlackjack = () => {
 
   const { state, dispatch } = context;
 
+  const updateBet = useCallback(
+    (bet: number) => {
+      dispatch({ type: 'BET_UPDATE', payload: bet });
+    },
+    [dispatch]
+  );
+
   const resetGame = useCallback(() => {
     dispatch({ type: 'GAME_RESET' });
   }, [dispatch]);
@@ -62,5 +69,6 @@ export const useBlackjack = () => {
     playerStand,
     resetGame,
     startGame,
+    updateBet,
   };
 };
