@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { GAME_OVER_STATUS } from '../constants';
 import { useBlackjack } from '../hooks';
 import { getHandValue, getResultHeadline } from '../lib/utils';
 
+import { Balance } from './Balance';
 import { CardBox } from './Card';
 
 import styles from '../styles/blackjack.module.scss';
-import { Balance } from './Balance';
 
 export const Blackjack: React.FC = () => {
+  const [isDouble, setIsDouble] = useState<boolean>(false);
+
   const {
     balance,
     bet,
@@ -18,13 +20,24 @@ export const Blackjack: React.FC = () => {
     gameStatus,
     playerHand,
     isGameOver,
+    playerDouble,
     playerHit,
     playerStand,
     startGame,
     updateBet,
   } = useBlackjack();
 
+  const handleDouble = useCallback(async () => {
+    await setIsDouble(true);
+    playerDouble();
+  }, [playerDouble]);
+
   const gameOver = GAME_OVER_STATUS.includes(gameStatus);
+
+  if (bet && gameOver && isDouble) {
+    setIsDouble(false);
+    updateBet(Math.round(bet / 2));
+  }
 
   useEffect(() => {
     isGameOver();
@@ -52,21 +65,25 @@ export const Blackjack: React.FC = () => {
         </div>
         {!gameOver && (
           <div className={styles.actions}>
-            <button>DOUBLE</button>
+            <button disabled={!bet || bet * 2 > balance} onClick={handleDouble}>
+              DOUBLE
+            </button>
             <button onClick={playerHit}>HIT</button>
             <button onClick={playerStand}>STAND</button>
           </div>
         )}
         {gameOver && (
           <div className={styles.result}>
-            <p>RESULT: {getResultHeadline(gameStatus)}</p>
-            <button
-              disabled={!bet || bet > balance}
-              onClick={() => {
-                if (bet) startGame(bet);
-              }}>
-              PLAY AGAIN
-            </button>
+            <div>
+              <p>RESULT: {getResultHeadline(gameStatus)}</p>
+              <button
+                disabled={!bet || bet > balance}
+                onClick={() => {
+                  if (bet) startGame(bet);
+                }}>
+                PLAY AGAIN
+              </button>
+            </div>
           </div>
         )}
         <div className={styles.player}>
