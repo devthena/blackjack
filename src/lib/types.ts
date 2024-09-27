@@ -47,6 +47,7 @@ export interface GameState {
 export type GameAction =
   | { type: 'BET_UPDATE'; payload: number }
   | { type: 'GAME_START'; payload: { bet: number; deck: Card[] } }
+  | { type: 'DOUBLE' }
   | { type: 'HIT' }
   | { type: 'STAND' }
   | { type: 'GAME_END'; payload: GameStatus }

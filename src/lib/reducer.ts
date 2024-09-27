@@ -1,6 +1,6 @@
 import { initialState } from '../constants';
 import { Card, GameAction, GameState } from './types';
-import { dealerPlay, drawCard } from './utils';
+import { dealerPlay, drawCard, getHandValue } from './utils';
 
 export const gameReducer = (
   state: GameState,
@@ -36,6 +36,28 @@ export const gameReducer = (
         gameStatus: 'play',
       };
 
+    case 'DOUBLE':
+      if (state.deck.length === 0 || !state.bet) return state;
+
+      const copyDeck = [...state.deck];
+      const newPlayerHand = [...state.playerHand, drawCard(copyDeck)];
+
+      const playerHandValue = getHandValue(newPlayerHand);
+
+      const newDealerHand =
+        playerHandValue < 21
+          ? dealerPlay(copyDeck, state.dealerHand)
+          : state.dealerHand;
+
+      return {
+        ...state,
+        balance: state.balance - state.bet,
+        bet: state.bet * 2,
+        deck: copyDeck,
+        dealerHand: newDealerHand,
+        playerHand: newPlayerHand,
+      };
+
     case 'HIT':
       if (state.deck.length === 0) return state;
 
@@ -50,12 +72,12 @@ export const gameReducer = (
 
     case 'STAND':
       const currentDeck = [...state.deck];
-      const newDealerHand = dealerPlay(currentDeck, state.dealerHand);
+      const updatedDealerHand = dealerPlay(currentDeck, state.dealerHand);
 
       return {
         ...state,
         deck: currentDeck,
-        dealerHand: newDealerHand,
+        dealerHand: updatedDealerHand,
       };
 
     case 'GAME_END':

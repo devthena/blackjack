@@ -40,9 +40,16 @@
   margin: 10px 0;
 }
 
-.actions {
+.actions,
+.result {
+  align-items: center;
+  display: flex;
+  height: 100px;
+  justify-content: center;
   margin: 24px 0;
+}
 
+.actions {
   button {
     margin-right: 10px;
   }

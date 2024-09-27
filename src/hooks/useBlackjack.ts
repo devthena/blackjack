@@ -54,6 +54,10 @@ export const useBlackjack = () => {
     }
   }, [dispatch, state.dealerHand, state.playerHand]);
 
+  const playerDouble = useCallback(() => {
+    dispatch({ type: 'DOUBLE' });
+  }, [dispatch]);
+
   const playerHit = useCallback(() => {
     dispatch({ type: 'HIT' });
   }, [dispatch]);
@@ -65,6 +69,7 @@ export const useBlackjack = () => {
   return {
     ...state,
     isGameOver,
+    playerDouble,
     playerHit,
     playerStand,
     resetGame,
