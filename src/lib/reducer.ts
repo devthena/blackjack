@@ -7,6 +7,17 @@ export const gameReducer = (
   action: GameAction
 ): GameState => {
   switch (action.type) {
+    case 'STATS_UPDATE':
+      localStorage.setItem(
+        'react-blackjack-devthena',
+        JSON.stringify(action.payload)
+      );
+
+      return {
+        ...state,
+        stats: action.payload,
+      };
+
     case 'BET_UPDATE':
       return {
         ...state,
@@ -83,19 +94,30 @@ export const gameReducer = (
     case 'GAME_END':
       if (state.gameStatus === action.payload || !state.bet) return state;
 
-      let addend = 0;
+      let blackjack = 0;
+      let reward = 0;
+      let win = 0;
 
       if (action.payload === 'win' || action.payload === 'dealer_bust') {
-        addend = state.bet * 2;
+        reward = state.bet * 2;
+        win += 1;
       } else if (action.payload === 'blackjack') {
-        addend = state.bet + Math.round(state.bet * 1.5);
+        blackjack += 1;
+        reward = state.bet + Math.round(state.bet * 1.5);
+        win += 1;
       } else if (action.payload === 'push') {
-        addend = state.bet;
+        reward = state.bet;
       }
 
       return {
         ...state,
-        balance: state.balance + addend,
+        stats: {
+          ...state.stats,
+          totalBlackjack: state.stats.totalBlackjack + blackjack,
+          totalPlayed: state.stats.totalPlayed + 1,
+          totalWon: state.stats.totalWon + win,
+        },
+        balance: state.balance + reward,
         gameStatus: action.payload,
       };
 

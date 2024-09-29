@@ -35,7 +35,14 @@ export type GameStatus =
   | 'standby'
   | 'win';
 
+export interface GameStats {
+  totalBlackjack: number;
+  totalPlayed: number;
+  totalWon: number;
+}
+
 export interface GameState {
+  stats: GameStats;
   balance: number;
   bet: number | null;
   deck: Deck;
@@ -45,6 +52,7 @@ export interface GameState {
 }
 
 export type GameAction =
+  | { type: 'STATS_UPDATE'; payload: GameStats }
   | { type: 'BET_UPDATE'; payload: number }
   | { type: 'GAME_START'; payload: { bet: number; deck: Card[] } }
   | { type: 'DOUBLE' }

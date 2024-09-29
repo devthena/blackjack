@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 
 import { GameContext } from '../lib/context';
-import { Card } from '../lib/types';
+import { Card, GameStats } from '../lib/types';
 import { getHandValue, shuffleDeck } from '../lib/utils';
 
 export const useBlackjack = () => {
@@ -12,6 +12,13 @@ export const useBlackjack = () => {
   }
 
   const { state, dispatch } = context;
+
+  const updateStats = useCallback(
+    (stats: GameStats) => {
+      dispatch({ type: 'STATS_UPDATE', payload: stats });
+    },
+    [dispatch]
+  );
 
   const updateBet = useCallback(
     (bet: number) => {
@@ -37,11 +44,8 @@ export const useBlackjack = () => {
     const dealerHandValue = getHandValue(state.dealerHand);
 
     if (playerHandValue > 21) {
-      console.log('bust');
       dispatch({ type: 'GAME_END', payload: 'bust' });
-    }
-
-    if (dealerHandValue > 21) {
+    } else if (dealerHandValue > 21) {
       dispatch({ type: 'GAME_END', payload: 'dealer_bust' });
     } else if (playerHandValue === 21) {
       dispatch({ type: 'GAME_END', payload: 'blackjack' });
@@ -75,5 +79,6 @@ export const useBlackjack = () => {
     resetGame,
     startGame,
     updateBet,
+    updateStats,
   };
 };

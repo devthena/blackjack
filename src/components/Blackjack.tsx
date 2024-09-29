@@ -13,6 +13,7 @@ export const Blackjack: React.FC = () => {
   const [isDouble, setIsDouble] = useState<boolean>(false);
 
   const {
+    stats,
     balance,
     bet,
     deck,
@@ -25,6 +26,7 @@ export const Blackjack: React.FC = () => {
     playerStand,
     startGame,
     updateBet,
+    updateStats,
   } = useBlackjack();
 
   const handleDouble = useCallback(async () => {
@@ -32,16 +34,20 @@ export const Blackjack: React.FC = () => {
     playerDouble();
   }, [playerDouble]);
 
-  const gameOver = GAME_OVER_STATUS.includes(gameStatus);
-
-  if (bet && gameOver && isDouble) {
-    setIsDouble(false);
-    updateBet(Math.round(bet / 2));
-  }
-
   useEffect(() => {
-    isGameOver();
-  }, [isGameOver]);
+    if (GAME_OVER_STATUS.includes(gameStatus)) {
+      updateStats(stats);
+
+      if (bet && isDouble) {
+        setIsDouble(false);
+        updateBet(Math.round(bet / 2));
+      }
+    } else {
+      isGameOver();
+    }
+  }, [bet, gameStatus, isDouble, stats, isGameOver, updateBet, updateStats]);
+
+  let gameOver = GAME_OVER_STATUS.includes(gameStatus);
 
   return (
     <div className={styles.game}>

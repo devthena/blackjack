@@ -1,7 +1,11 @@
 import React from 'react';
+
 import { useBlackjack } from '../hooks';
-import styles from '../styles/landing.module.scss';
+
 import { Balance } from './Balance';
+import { Stats } from './Stats';
+
+import styles from '../styles/landing.module.scss';
 
 export const Landing: React.FC = () => {
   const { balance, bet, startGame, updateBet } = useBlackjack();
@@ -17,6 +21,7 @@ export const Landing: React.FC = () => {
         }}>
         PLAY
       </button>
+      <Stats />
     </div>
   );
 };
