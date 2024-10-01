@@ -49,9 +49,20 @@
   margin: 24px 0;
 }
 
-.actions {
+.actions,
+.result > div {
   button {
-    margin-right: 10px;
+    background-color: var(--white);
+    border: 1.5px solid var(--black);
+    border-radius: 30px;
+    font-size: 14px;
+    height: 50px;
+    margin-right: 17px;
+    width: 150px;
+  }
+
+  button:hover:enabled {
+    border: none;
   }
 
   button:last-child {

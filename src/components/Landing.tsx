@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useBlackjack } from '../hooks';
 
@@ -8,7 +8,20 @@ import { Stats } from './Stats';
 import styles from '../styles/landing.module.scss';
 
 export const Landing: React.FC = () => {
-  const { balance, bet, startGame, updateBet } = useBlackjack();
+  const { balance, bet, startGame, updateBet, updateUser } = useBlackjack();
+
+  useEffect(() => {
+    const prevUser = localStorage.getItem('devthena-blackjack-user');
+
+    if (prevUser) {
+      updateUser(JSON.parse(prevUser));
+    } else {
+      updateUser({
+        bet: 100,
+        balance: 1000,
+      });
+    }
+  }, [updateUser]);
 
   return (
     <div className={styles.landing}>
@@ -21,7 +34,9 @@ export const Landing: React.FC = () => {
         }}>
         PLAY
       </button>
-      <Stats />
+      <div className={styles.landingStats}>
+        <Stats />
+      </div>
     </div>
   );
 };

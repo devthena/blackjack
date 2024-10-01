@@ -24,9 +24,11 @@ export const Blackjack: React.FC = () => {
     playerDouble,
     playerHit,
     playerStand,
+    removeUser,
     startGame,
     updateBet,
     updateStats,
+    updateUser,
   } = useBlackjack();
 
   const handleDouble = useCallback(async () => {
@@ -35,17 +37,43 @@ export const Blackjack: React.FC = () => {
   }, [playerDouble]);
 
   useEffect(() => {
+    if (!bet) return;
+
     if (GAME_OVER_STATUS.includes(gameStatus)) {
       updateStats(stats);
 
-      if (bet && isDouble) {
+      let newBet = bet;
+
+      if (isDouble) {
         setIsDouble(false);
-        updateBet(Math.round(bet / 2));
+        newBet = Math.round(bet / 2);
+      }
+
+      updateBet(newBet);
+
+      if (balance === 0) {
+        removeUser();
+      } else {
+        updateUser({
+          bet: newBet,
+          balance: balance,
+        });
       }
     } else {
       isGameOver();
     }
-  }, [bet, gameStatus, isDouble, stats, isGameOver, updateBet, updateStats]);
+  }, [
+    balance,
+    bet,
+    gameStatus,
+    isDouble,
+    stats,
+    isGameOver,
+    removeUser,
+    updateBet,
+    updateStats,
+    updateUser,
+  ]);
 
   let gameOver = GAME_OVER_STATUS.includes(gameStatus);
 
