@@ -51,14 +51,21 @@ export interface GameState {
   gameStatus: GameStatus;
 }
 
+export interface UserBalance {
+  bet: number;
+  balance: number;
+}
+
 export type GameAction =
   | { type: 'STATS_UPDATE'; payload: GameStats }
+  | { type: 'USER_UPDATE'; payload: UserBalance }
   | { type: 'BET_UPDATE'; payload: number }
   | { type: 'GAME_START'; payload: { bet: number; deck: Card[] } }
   | { type: 'DOUBLE' }
   | { type: 'HIT' }
   | { type: 'STAND' }
   | { type: 'GAME_END'; payload: GameStatus }
+  | { type: 'USER_DELETE' }
   | { type: 'GAME_RESET' };
 
 export interface GameContextType {

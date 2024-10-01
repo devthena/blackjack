@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 
 import { GameContext } from '../lib/context';
-import { Card, GameStats } from '../lib/types';
+import { Card, GameStats, UserBalance } from '../lib/types';
 import { getHandValue, shuffleDeck } from '../lib/utils';
 
 export const useBlackjack = () => {
@@ -16,6 +16,13 @@ export const useBlackjack = () => {
   const updateStats = useCallback(
     (stats: GameStats) => {
       dispatch({ type: 'STATS_UPDATE', payload: stats });
+    },
+    [dispatch]
+  );
+
+  const updateUser = useCallback(
+    (data: UserBalance) => {
+      dispatch({ type: 'USER_UPDATE', payload: data });
     },
     [dispatch]
   );
@@ -70,15 +77,21 @@ export const useBlackjack = () => {
     dispatch({ type: 'STAND' });
   }, [dispatch]);
 
+  const removeUser = useCallback(() => {
+    dispatch({ type: 'USER_DELETE' });
+  }, [dispatch]);
+
   return {
     ...state,
     isGameOver,
     playerDouble,
     playerHit,
     playerStand,
+    removeUser,
     resetGame,
     startGame,
     updateBet,
     updateStats,
+    updateUser,
   };
 };

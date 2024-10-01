@@ -9,13 +9,25 @@ export const gameReducer = (
   switch (action.type) {
     case 'STATS_UPDATE':
       localStorage.setItem(
-        'react-blackjack-devthena',
+        'devthena-blackjack-stats',
         JSON.stringify(action.payload)
       );
 
       return {
         ...state,
         stats: action.payload,
+      };
+
+    case 'USER_UPDATE':
+      localStorage.setItem(
+        'devthena-blackjack-user',
+        JSON.stringify(action.payload)
+      );
+
+      return {
+        ...state,
+        bet: action.payload.bet,
+        balance: action.payload.balance,
       };
 
     case 'BET_UPDATE':
@@ -120,6 +132,13 @@ export const gameReducer = (
         balance: state.balance + reward,
         gameStatus: action.payload,
       };
+
+    case 'USER_DELETE':
+      if (state.balance === 0) {
+        localStorage.removeItem('devthena-blackjack-user');
+      }
+
+      return state;
 
     case 'GAME_RESET':
       return {
