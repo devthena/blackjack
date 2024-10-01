@@ -6,7 +6,19 @@ Since there is no authentication implemented, all the stats are saved in `localS
 
 ## How to Play
 
-To be updated..
+GOAL: Get closer to 21 than the Dealer
+
+RULES:
+
+- Aces can be used as a 1 or 11
+- Cards 2-10 are worth their face value
+- Face cards J, Q, and K are worth 10
+
+PLAY:
+
+- **HIT** - Draw another card
+- **STAND** - Keep your hand and end your turn
+- **DOUBLE** - Doubled bet and draw a last card
 
 ## Support and Feedback
 
