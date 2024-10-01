@@ -30,6 +30,12 @@ export const gameReducer = (
         balance: action.payload.balance,
       };
 
+    case 'MODAL_UPDATE':
+      return {
+        ...state,
+        modal: action.payload,
+      };
+
     case 'BET_UPDATE':
       return {
         ...state,

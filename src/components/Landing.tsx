@@ -34,7 +34,9 @@ export const Landing: React.FC = () => {
         }}>
         PLAY
       </button>
-      <Stats />
+      <div className={styles.landingStats}>
+        <Stats />
+      </div>
     </div>
   );
 };

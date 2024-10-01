@@ -1,4 +1,5 @@
 import React from 'react';
+import { ModalContent } from '../constants';
 
 export type Suit = 'hearts' | 'diamonds' | 'clubs' | 'spades';
 
@@ -41,8 +42,14 @@ export interface GameStats {
   totalWon: number;
 }
 
+export interface ModalObject {
+  content?: ModalContent;
+  display: boolean;
+}
+
 export interface GameState {
   stats: GameStats;
+  modal: ModalObject;
   balance: number;
   bet: number | null;
   deck: Deck;
@@ -59,6 +66,7 @@ export interface UserBalance {
 export type GameAction =
   | { type: 'STATS_UPDATE'; payload: GameStats }
   | { type: 'USER_UPDATE'; payload: UserBalance }
+  | { type: 'MODAL_UPDATE'; payload: ModalObject }
   | { type: 'BET_UPDATE'; payload: number }
   | { type: 'GAME_START'; payload: { bet: number; deck: Card[] } }
   | { type: 'DOUBLE' }

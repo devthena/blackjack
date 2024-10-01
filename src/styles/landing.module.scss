@@ -1,5 +1,5 @@
 .landing {
-  margin: 24px auto 0;
+  margin: 48px auto 0;
   max-width: 700px;
 }
 
@@ -22,4 +22,11 @@ button.play {
   &:hover:enabled {
     background-color: var(--green-hover);
   }
+}
+
+.landingStats {
+  border: 1px solid var(--black);
+  margin: 0 auto;
+  max-width: 300px;
+  padding: 20px;
 }

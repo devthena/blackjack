@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 
 import { GameContext } from '../lib/context';
-import { Card, GameStats, UserBalance } from '../lib/types';
+import { Card, GameStats, ModalObject, UserBalance } from '../lib/types';
 import { getHandValue, shuffleDeck } from '../lib/utils';
 
 export const useBlackjack = () => {
@@ -23,6 +23,13 @@ export const useBlackjack = () => {
   const updateUser = useCallback(
     (data: UserBalance) => {
       dispatch({ type: 'USER_UPDATE', payload: data });
+    },
+    [dispatch]
+  );
+
+  const updateModal = useCallback(
+    (data: ModalObject) => {
+      dispatch({ type: 'MODAL_UPDATE', payload: data });
     },
     [dispatch]
   );
@@ -91,6 +98,7 @@ export const useBlackjack = () => {
     resetGame,
     startGame,
     updateBet,
+    updateModal,
     updateStats,
     updateUser,
   };
