@@ -26,6 +26,15 @@ export const Rules: React.FC = () => {
           </li>
         </ul>
       </div>
+      <h3>GAME RULES</h3>
+      <div className={styles.list}>
+        <ul>
+          <li>Blackjack (Ace + 10-value) is an automatic win</li>
+          <li>Push (dealer has same value as you) is a tie</li>
+          <li>Bust (going over 21) means a loss</li>
+          <li>If both player and dealer bust, the dealer wins</li>
+        </ul>
+      </div>
     </div>
   );
 };

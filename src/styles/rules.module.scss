@@ -26,6 +26,10 @@
 
 .list {
   display: inline-block;
+
+  &:last-child ul {
+    margin-top: 0;
+  }
 }
 
 .green {
