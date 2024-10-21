@@ -8,7 +8,7 @@ Since there is no authentication implemented, all the stats are saved in `localS
 
 GOAL: Get closer to 21 than the Dealer
 
-RULES:
+VALUES:
 
 - Aces can be used as a 1 or 11
 - Cards 2-10 are worth their face value
@@ -19,6 +19,13 @@ PLAY:
 - **HIT** - Draw another card
 - **STAND** - Keep your hand and end your turn
 - **DOUBLE** - Doubled bet and draw a last card
+
+RULES:
+
+- Blackjack (Ace + 10-value) is an automatic win
+- Push (dealer has same value as you) is a tie
+- Bust (going over 21) means a loss
+- If both player and dealer bust, the dealer wins
 
 ## Support and Feedback
 
